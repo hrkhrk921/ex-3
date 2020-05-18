@@ -37,23 +37,44 @@
 					<td><%= @book.body %></td>
 					<td><!-- ここから -->
 						<% if @book.favorited_by?(current_user) %>
-							<%= link_to book_favorites_path(@book), method: :delete do %>
+							<%= link_to book_favorite_path(@book), method: :delete do %>
 							<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
 							<%= @book.favorites.count %>
 							<% end %>
 						<% else %>
 							<%= link_to book_favorites_path(@book), method: :post do %>
-							<%= @book.favorites.count %>
+							<%= @book.favorites.count %>いいね
 							<% end %>
 						<% end %>
 						<!-- ここまで -->
 					</td>
+					<td>コメント数：<%= @book.book_comments.count %></td>
 					<% if @book.user_id == current_user.id %>
 					<td><%= link_to "Edit",edit_book_path(@book.id), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
 					<td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
 					<% end %>
 				</tr>
 			</table>
+			<%= form_for [@book, @book_comment] do |f| %>
+					<%= f.text_area :comment %>
+					<%= f.submit %>
+				<% end %>
+
+				<table class="table">
+					<% @book_comments.each do |book_comment| %>
+						<tr>
+							<td>
+								<%= book_comment.comment %>
+							<td>
+
+							<td>
+								<% if book_comment.user_id == current_user.id %>
+									<%= link_to "delete", book_book_comments_path(@book, book_comment), method: :delete %>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
+				</table>
 
 	</div>
 </div>
