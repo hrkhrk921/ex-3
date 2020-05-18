@@ -43,7 +43,8 @@
 							<% end %>
 						<% else %>
 							<%= link_to book_favorites_path(@book), method: :post do %>
-							<%= @book.favorites.count %>いいね
+							<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+							<%= @book.favorites.count %>
 							<% end %>
 						<% end %>
 						<!-- ここまで -->
